@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Header from '../header';
 import RandomPlanet from '../random-planet';
@@ -22,17 +23,16 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <Header />
-        <RandomPlanet />
-
-        <div className="row mb2">
-          <div className="col-md-6">
-            <ItemList onItemSelected={this.onPersonSelected}/>
-          </div>
-          <div className="col-md-6" id={this.state.selectedPerson}>
-            <PersonDetails personId={this.state.selectedPerson}/>
-          </div>
-        </div>
+        <Router>
+          <Header />
+          <Route path="/" render={() => <h2>Драутути</h2>} exact />
+          <Route path="/planet" component={RandomPlanet} />
+          <Route path="/people" exact render={() => <ItemList onItemSelected={this.onPersonSelected} />} />
+          <Route path="/people/:id" render={ ({ match }) => {
+            const { id } = match.params;
+            return <PersonDetails personId={id} />
+            }} />
+        </Router>
       </div>
     );
   }

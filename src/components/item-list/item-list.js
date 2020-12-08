@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import SwapiService from '../../services/swapi-service';
 import Spinner from '../spinner/spinner';
 
 import './item-list.css';
 
-export default class ItemList extends Component {
+class ItemList extends Component {
 
   swapiService = new SwapiService();
 
@@ -23,11 +24,13 @@ export default class ItemList extends Component {
   }
 
   renderItems(arr) {
+    const { history } = this.props;
+    
     return arr.map(({id, name}) => {
       return (
         <li className="list-group-item" 
             key={id}
-            onClick = {() => this.props.onItemSelected(id)}>
+            onClick = { () => history.push(`/people/${id}`) }>
           {name}
         </li>
       )
@@ -51,3 +54,5 @@ export default class ItemList extends Component {
     );
   }
 }
+
+export default withRouter(ItemList);
